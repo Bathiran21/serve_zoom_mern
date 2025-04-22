@@ -15,6 +15,9 @@ app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
 
+app.get('/', (req, res) => {
+  res.send("Hi from Server Zoom Mern")
+})
 
 // Check if app is inside Zoom
 app.get('/api/zoom/is-zoom', (req, res) => {
