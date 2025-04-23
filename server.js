@@ -19,13 +19,6 @@ app.get('/', (req, res) => {
   res.send("Hi from Server Zoom Mern")
 })
 
-// Check if app is inside Zoom
-app.get('/api/zoom/is-zoom', (req, res) => {
-  const isZoom = !!req.headers['x-zoom-app-device-type'];
-  res.json({ isZoom });
-});
-
-
 
 // Route to initiate the OAuth flow (Zoom app install)
 app.get('/auth/install', async (req, res) => {

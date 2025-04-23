@@ -30,23 +30,24 @@ export async function decrypt(token) {
 export async function createSession(res, payload, expiresIn = '7d') {
     const token = await encrypt(payload, expiresIn);
 
-    res.setHeader('Set-Cookie', serialize('session', token, {
+    console.log("token", token)
+
+    res.cookie('session', token, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === 'production', // Secure only in production
+        secure: process.env.NODE_ENV === 'production',
         sameSite: 'lax',
-        path: '/',
-        maxAge: 7 * 24 * 60 * 60, // 7 days
-    }));
+        maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days!
+    })
 }
 
 export function deleteSession(res) {
-    res.setHeader('Set-Cookie', serialize('session', '', {
+    res.cookie('session', '', {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
         sameSite: 'lax',
         path: '/',
         maxAge: 0,
-    }));
+    });
 }
 
 export async function decryptSession(req) {
