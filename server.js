@@ -37,15 +37,11 @@ app.get("/auth/install", async (req, res) => {
 
 // Callback route after Zoom OAuth
 app.get("/auth/callback", async (req, res) => {
-  const isZoom =
-    !!req.headers["x-zoom-app-context"] ||
-    !!req.headers["x-zoom-app-device-type"];
+    const isZoom = !!req.headers['x-zoom-app-context'] || !!req.headers['x-zoom-app-device-type'];
 
   // For development, allow launching in browser if a special dev param is passed
-  if (!isZoom && process.env.ALLOW_NONZOOM_LAUNCH !== "true") {
-    return res
-      .status(403)
-      .send("Error 122: Launch this app from the Zoom client");
+  if (!isZoom && process.env.ALLOW_NONZOOM_LAUNCH !== 'true') {
+    return res.status(403).send('Error 122: Launch this app from the Zoom client');
   }
 
   // const isZoom = !!req.headers["x-zoom-app-context"];
@@ -58,8 +54,8 @@ app.get("/auth/callback", async (req, res) => {
   console.log("Zoom Context Header:", req.headers["x-zoom-app-context"]);
 
   const { code, state } = req.query;
-  console.log("code on req.params", code);
-  console.log("state on req.params", state);
+  console.log("code on req.params", code)
+  console.log("state on req.params", state)
   if (!code) {
     return res.status(400).json({ error: "Invalid code parameter" });
   }
@@ -76,9 +72,9 @@ app.get("/auth/callback", async (req, res) => {
 
   try {
     const { verifier } = session;
-
-    console.log(" {verifier}", verifier);
-    console.log("session.verifier", session.verifier);
+    
+    console.log(" {verifier}", verifier)
+    console.log("session.verifier", session.verifier)
 
     // Exchange code for access token
     const { access_token } = await getToken(code, verifier);
@@ -91,9 +87,7 @@ app.get("/auth/callback", async (req, res) => {
     // deleteSession(res);
 
     // Redirect user to Zoom App via deeplink
-    // return res.redirect(deeplink);
-    return res.json({ deeplink });
-    
+    return res.redirect(deeplink);
   } catch (error) {
     console.error("Callback error:", error);
     return res
