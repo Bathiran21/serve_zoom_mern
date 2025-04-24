@@ -42,13 +42,12 @@ app.get('/auth/callback', async (req, res) => {
   // }
 
   const { code, state } = req.query;
-  console.log("code")
-  console.log("state")
   if (!code) {
     return res.status(400).json({ error: 'Invalid code parameter' });
   }
 
   const session = await decryptSession(req);
+  console.log("session" , session)
   if (!session) {
     return res.status(500).json({ error: 'Invalid session' });
   }
@@ -62,9 +61,10 @@ app.get('/auth/callback', async (req, res) => {
 
     // Exchange code for access token
     const { access_token } = await getToken(code, verifier);
-
+    console.log("access_token", access_token)
     // Fetch deeplink from Zoom
     const deeplink = await getDeeplink(access_token);
+    console.log("deeplink", deeplink)
 
     // Optional: delete session cookie
     deleteSession(res);

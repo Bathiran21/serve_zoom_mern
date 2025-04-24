@@ -98,3 +98,4 @@ export function getDeeplink(token) {
     return apiRequest('POST', '/zoomapp/deeplink', token, {})
         .then((data) => Promise.resolve(data.deeplink));
 }
+    

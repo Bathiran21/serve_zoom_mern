@@ -30,7 +30,7 @@ export async function decrypt(token) {
 export async function createSession(res, payload, expiresIn = '7d') {
     const token = await encrypt(payload, expiresIn);
 
-    console.log("token", token)
+    // console.log("token", token)
 
     res.cookie('session', token, {
         httpOnly: true,
