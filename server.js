@@ -79,13 +79,13 @@ app.get("/auth/callback", async (req, res) => {
     console.log("deeplink", deeplink);
 
     // Optional: delete session cookie
-    deleteSession(res);
+    // deleteSession(res);
 
     // Redirect user to Zoom App via deeplink
-    res.redirect(deeplink);
+    return res.redirect(deeplink);
   } catch (error) {
     console.error("Callback error:", error);
-    res
+    return res
       .status(500)
       .json({ error: "Failed to complete Zoom OAuth flow" });
   }
