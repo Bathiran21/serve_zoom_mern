@@ -44,11 +44,11 @@ app.get("/auth/callback", async (req, res) => {
   //   return res.status(403).send('Error 122: Launch this app from the Zoom client');
   // }
 
-  const isZoom = !!req.headers["x-zoom-app-context"];
-  if (!isZoom) {
-    return res.status(403).send('Error 122: Launch this app from the Zoom client');
-  }
-  console.log("isZoom", isZoom)
+  // const isZoom = !!req.headers["x-zoom-app-context"];
+  // if (!isZoom) {
+  //   return res.status(403).send('Error 122: Launch this app from the Zoom client');
+  // }
+  // console.log("isZoom", isZoom)
 
   const { code, state } = req.query;
   console.log("code on req.params", code)
