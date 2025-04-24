@@ -67,7 +67,7 @@ app.get('/auth/callback', async (req, res) => {
     console.log("deeplink", deeplink)
 
     // Optional: delete session cookie
-    deleteSession(res);
+    // deleteSession(res);
 
     // Redirect user to Zoom App via deeplink
     return res.redirect(deeplink);
