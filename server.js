@@ -40,9 +40,9 @@ app.get('/auth/install', async (req, res) => {
 app.get('/auth/callback', async (req, res) => {
   const isZoom = !!req.headers['x-zoom-app-device-type'];
   console.log(isZoom)
-  // if (!isZoom) {
-  //   return res.status(403).send('Error 122: Launch this app from the Zoom client');
-  // }
+  if (!isZoom) {
+    return res.status(403).send('Error 122: Launch this app from the Zoom client');
+  }
 
   const { code, state } = req.query;
   if (!code) {
