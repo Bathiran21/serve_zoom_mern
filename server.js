@@ -70,8 +70,8 @@ app.get("/auth/callback", async (req, res) => {
   try {
     const { verifier } = session;
     
-    console.log("session verifier", verifier)
-    console.log("session code", session.code)
+    console.log(" {verifier}", verifier)
+    console.log("session.verifier", session.verifier)
 
     // Exchange code for access token
     const { access_token } = await getToken(code, verifier);
