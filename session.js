@@ -34,7 +34,7 @@ export async function createSession(res, payload, expiresIn = '7d') {
 
     res.cookie('session', token, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
+        secure: false,
         sameSite: 'lax',
         maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days!
     })
@@ -43,7 +43,7 @@ export async function createSession(res, payload, expiresIn = '7d') {
 export function deleteSession(res) {
     res.cookie('session', '', {
         httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
+        secure: false,
         sameSite: 'lax',
         path: '/',
         maxAge: 0,
