@@ -79,33 +79,13 @@ app.get("/auth/callback", async (req, res) => {
     console.log("deeplink", deeplink);
 
     // Optional: delete session cookie
-    // deleteSession(res);
+    deleteSession(res);
 
     // Redirect user to Zoom App via deeplink
-    return res.send(`
-      <html>
-        <head>
-          <script src="https://source.zoom.us/zoom-apps/1.1.0/zoomapps.min.js"></script>
-          <script>
-            window.addEventListener("DOMContentLoaded", async () => {
-              try {
-                await zoomSdk.config({ capabilities: ["openUrl"] });
-                await zoomSdk.openUrl({ url: "${deeplink}" });
-              } catch (err) {
-                document.body.innerHTML = "<h2>Failed to open Zoom App deeplink.</h2><pre>" + err + "</pre>";
-              }
-            });
-          </script>
-        </head>
-        <body>
-          <h2>Redirecting back to Zoom App...</h2>
-        </body>
-      </html>
-    `);
-    
+    res.redirect(deeplink);
   } catch (error) {
     console.error("Callback error:", error);
-    return res
+    res
       .status(500)
       .json({ error: "Failed to complete Zoom OAuth flow" });
   }
