@@ -37,7 +37,7 @@ app.get("/auth/install", async (req, res) => {
 
 // Callback route after Zoom OAuth
 app.get("/auth/callback", async (req, res) => {
-  //   const isZoom = !!req.headers['x-zoom-app-context'] || !!req.headers['x-zoom-app-device-type'];
+    const isZoom = !!req.headers['x-zoom-app-context'] || !!req.headers['x-zoom-app-device-type'];
 
   // For development, allow launching in browser if a special dev param is passed
   if (!isZoom && process.env.ALLOW_NONZOOM_LAUNCH !== 'true') {
@@ -51,7 +51,7 @@ app.get("/auth/callback", async (req, res) => {
   // console.log("isZoom", isZoom)
 
   console.log("Headers:", req.headers);
-    console.log("Zoom Context Header:", req.headers["x-zoom-app-context"]);
+  console.log("Zoom Context Header:", req.headers["x-zoom-app-context"]);
 
   const { code, state } = req.query;
   console.log("code on req.params", code)
