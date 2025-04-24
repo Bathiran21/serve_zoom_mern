@@ -36,7 +36,7 @@ app.get("/auth/install", async (req, res) => {
 });
 
 // Callback route after Zoom OAuth
-app.get("/auth/callbac", async (req, res) => {
+app.get("/auth/callback", async (req, res) => {
   //   const isZoom = !!req.headers['x-zoom-app-context'] || !!req.headers['x-zoom-app-device-type'];
 
   // For development, allow launching in browser if a special dev param is passed
@@ -48,8 +48,11 @@ app.get("/auth/callbac", async (req, res) => {
   if (!isZoom) {
     return res.status(403).send('Error 122: Launch this app from the Zoom client');
   }
+  console.log("isZoom", isZoom)
 
   const { code, state } = req.query;
+  console.log("code on req.params", code)
+  console.log("state on req.params", state)
   if (!code) {
     return res.status(400).json({ error: "Invalid code parameter" });
   }
@@ -66,6 +69,9 @@ app.get("/auth/callbac", async (req, res) => {
 
   try {
     const { verifier } = session;
+    
+    console.log("session verifier", verifier)
+    console.log("session code", session.code)
 
     // Exchange code for access token
     const { access_token } = await getToken(code, verifier);

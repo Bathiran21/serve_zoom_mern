@@ -8,6 +8,7 @@ const secretKey = process.env.SESSION_SECRET || 'your-secret-key';
 const encodedKey = new TextEncoder().encode(secretKey);
 
 export async function encrypt(payload, expiresIn = '7d') {
+    console.log("payload on encrypt", payload)
     return new SignJWT(payload)
         .setProtectedHeader({ alg: 'HS256' })
         .setIssuedAt()
@@ -30,8 +31,8 @@ export async function decrypt(token) {
 export async function createSession(res, payload, expiresIn = '7d') {
     const token = await encrypt(payload, expiresIn);
 
-    // console.log("token", token)
-
+    console.log("token on createSession", token)
+    
     res.cookie('session', token, {
         httpOnly: true,
         secure: false,
@@ -52,6 +53,7 @@ export function deleteSession(res) {
 
 export async function decryptSession(req) {
     const token = req.cookies.session;
+    console.log("token on decryptSession", token)
     if (!token) return null;
     return await decrypt(token);
 }
