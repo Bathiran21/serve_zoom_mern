@@ -38,11 +38,13 @@ app.get('/auth/install', async (req, res) => {
 
 // Callback route after Zoom OAuth
 app.get('/auth/callback', async (req, res) => {
-  const isZoom = !!req.headers['x-zoom-app-device-type'];
-  console.log(isZoom)
-  if (!isZoom) {
-    return res.status(403).send('Error 122: Launch this app from the Zoom client');
-  }
+  const isZoom = !!req.headers['x-zoom-app-context'] || !!req.headers['x-zoom-app-device-type'];
+
+// For development, allow launching in browser if a special dev param is passed
+if (!isZoom && process.env.ALLOW_NONZOOM_LAUNCH !== 'true') {
+  return res.status(403).send('Error 122: Launch this app from the Zoom client');
+}
+
 
   const { code, state } = req.query;
   if (!code) {
