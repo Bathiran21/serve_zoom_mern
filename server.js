@@ -74,12 +74,18 @@ app.get("/auth/callback", async (req, res) => {
     // Exchange code for access token
     const { access_token } = await getToken(code, verifier);
     console.log("access_token", access_token);
+    res.cookie("zoom_token", access_token, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "Lax", // or 'None' if you're cross-domain
+      maxAge: 3600 * 1000, // 1 hour
+    });
     // Fetch deeplink from Zoom
     const deeplink = await getDeeplink(access_token);
     console.log("deeplink", deeplink);
 
     // Optional: delete session cookie
-    // deleteSession(res);
+    deleteSession(res);
 
     // Redirect user to Zoom App via deeplink
     return res.redirect(deeplink);
